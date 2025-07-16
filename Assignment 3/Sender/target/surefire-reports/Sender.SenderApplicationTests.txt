@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: Sender.SenderApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 76.24 s -- in Sender.SenderApplicationTests
