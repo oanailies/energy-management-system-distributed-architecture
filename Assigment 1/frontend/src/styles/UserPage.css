@@ -1,0 +1,91 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.user-page {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+.user-page h1 {
+    text-align: center;
+    color: #4a90e2;
+}
+
+
+.loading-message, .error-message {
+    text-align: center;
+    font-size: 1.1em;
+    color: #555;
+    margin: 20px 0;
+}
+
+
+.user-devices-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-devices-list li {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f3f7fc;
+    transition: transform 0.2s;
+}
+
+.user-devices-list li:hover {
+    transform: scale(1.02);
+    border-color: #4a90e2;
+}
+
+
+.device-details {
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.device-details h3 {
+    font-size: 1.1em;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.device-details p {
+    margin: 4px 0;
+    font-size: 0.9em;
+}
+
+
+.device-details strong {
+    color: #4a90e2;
+}
+
+
+.logout-button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: auto;
+}
+
+.logout-button:hover {
+    background-color: #e04343;
+}

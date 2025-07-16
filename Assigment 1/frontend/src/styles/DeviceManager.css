@@ -1,0 +1,160 @@
+
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fa;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e4e8;
+    padding-bottom: 10px;
+}
+
+/* Form Styling */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button.edit-button {
+    background-color: #28a745;
+    margin-right: 10px;
+}
+
+button.edit-button:hover {
+    background-color: #218838;
+}
+
+button.delete-button {
+    background-color: #dc3545;
+}
+
+button.delete-button:hover {
+    background-color: #c82333;
+}
+
+button.disconnect-button {
+    background-color: #ffc107;
+    margin-left: 10px;
+}
+
+button.disconnect-button:hover {
+    background-color: #e0a800;
+}
+
+
+.device-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.device-table th, .device-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.device-table th {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.device-table td {
+    background-color: #f9f9f9;
+}
+
+.device-table tr:nth-child(even) td {
+    background-color: #f2f2f2;
+}
+
+.device-table tr:hover {
+    background-color: #e9ecef;
+}
+
+
+.device-table .user-info {
+    color: #6c757d;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.device-table .available {
+    color: #28a745;
+    font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .device-table th, .device-table td {
+        padding: 8px 10px;
+    }
+}
