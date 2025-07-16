@@ -1,0 +1,8 @@
+/mnt/c/Users/Oana/Desktop/PROIECT_SD/backend/users/src/main/java/users/UsersApplication.java
+/mnt/c/Users/Oana/Desktop/PROIECT_SD/backend/users/src/main/java/users/controller/UserController.java
+/mnt/c/Users/Oana/Desktop/PROIECT_SD/backend/users/src/main/java/users/dto/LoginRequest.java
+/mnt/c/Users/Oana/Desktop/PROIECT_SD/backend/users/src/main/java/users/dto/UserDTO.java
+/mnt/c/Users/Oana/Desktop/PROIECT_SD/backend/users/src/main/java/users/entities/User.java
+/mnt/c/Users/Oana/Desktop/PROIECT_SD/backend/users/src/main/java/users/entities/UserRole.java
+/mnt/c/Users/Oana/Desktop/PROIECT_SD/backend/users/src/main/java/users/repositories/UserRepository.java
+/mnt/c/Users/Oana/Desktop/PROIECT_SD/backend/users/src/main/java/users/services/UserService.java
