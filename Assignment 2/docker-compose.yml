@@ -1,0 +1,161 @@
+services:
+  traefik:
+    image: traefik:v2.9
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.traefik.address=:8088"
+    ports:
+      - "80:80"
+      - "8088:8088"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - users-service
+      - devices-service
+    labels:
+      - "traefik.http.routers.frontend.rule=Host(`frontend.localhost`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+
+  users-service:
+    build:
+      context: ./backend/users
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - app-network
+    depends_on:
+      - postgres_users
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    labels:
+      - "traefik.http.routers.users.rule=Host(`users.localhost`)"
+      - "traefik.http.services.users.loadbalancer.server.port=8080"
+
+  postgres_users:
+    image: postgres:10.5
+    container_name: postgres_users
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: oana2002
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  devices-service:
+    build:
+      context: ./backend/devices
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+    networks:
+      - app-network
+    depends_on:
+      - postgres_devices
+      - rabbitmq
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    labels:
+      - "traefik.http.routers.devices.rule=Host(`devices.localhost`)"
+      - "traefik.http.services.devices.loadbalancer.server.port=8081"
+
+  postgres_devices:
+    image: postgres:10.5
+    container_name: postgres_devices
+    environment:
+      POSTGRES_DB: devices_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: oana2002
+    ports:
+      - "5433:5432"
+    networks:
+      - app-network
+
+  postgres_consumer:
+    image: postgres:10.5
+    container_name: postgres_consumer
+    environment:
+      POSTGRES_DB: consumer_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: oana2002
+    ports:
+      - "5434:5432"
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - app-network
+
+  sender-service:
+    build:
+      context: ./backend/Sender
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+    networks:
+      - app-network
+    depends_on:
+      - rabbitmq
+    labels:
+      - "traefik.http.routers.sender.rule=Host(`sender.localhost`)"
+      - "traefik.http.services.sender.loadbalancer.server.port=8083"
+
+  receiver-service:
+    build:
+      context: ./backend/Receiver
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_consumer:5432/consumer_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=oana2002
+    networks:
+      - app-network
+    depends_on:
+      - rabbitmq
+      - postgres_consumer
+    labels:
+      - "traefik.http.routers.receiver.rule=Host(`receiver.localhost`)"
+      - "traefik.http.services.receiver.loadbalancer.server.port=8084"
+      - "traefik.http.middlewares.receiver-websocket.headers.customrequestheaders.Upgrade=websocket"
+      - "traefik.http.middlewares.receiver-websocket.headers.customrequestheaders.Connection=Upgrade"
+      - "traefik.http.routers.receiver.middlewares=receiver-websocket"
+
+networks:
+  app-network:
+    name: app-network
